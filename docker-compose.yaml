@@ -9,7 +9,7 @@ services:
   freeaskinternet-ui:
     image: docker.io/nashsu/free_ask_internet_ui:latest
     ports:
-      - "3000:80"
+      - "3333:80"
     environment:
       BACKEND_HOST: "backend:8000"
     depends_on:
@@ -37,20 +37,20 @@ services:
     image: vinlic/kimi-free-api:latest
     restart: always
     environment:
-      - TZ=Asia/Shanghai
+      - TZ=Europe/Berlin
 
   llm-glm4:
     image: vinlic/glm-free-api:latest
     restart: always
     environment:
-      - TZ=Asia/Shanghai
+      - TZ=Europe/Berlin
 
 
   llm-qwen:
     image: vinlic/qwen-free-api:latest
     restart: always
     environment:
-      - TZ=Asia/Shanghai
+      - TZ=Europe/Berlin
 
   searxng:
     image: docker.io/searxng/searxng:latest
