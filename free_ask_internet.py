@@ -99,7 +99,7 @@ def search_web_ref(query:str, debug=False):
         raise ex
 
 
-def gen_prompt(question,content_list, lang="zh-CN", context_length_limit=11000,debug=False):
+def gen_prompt(question,content_list, lang="de_DE", context_length_limit=11000,debug=False):
     
     limit_len = (context_length_limit - 2000)
     if len(question) > limit_len:
