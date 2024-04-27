@@ -205,7 +205,7 @@ async def get_search_refs(request: QueryRequest):
 
 def generator(prompt:str, model:str, llm_auth_token:str,llm_base_url:str, using_custom_llm=False,is_failed=False):
     if is_failed:
-        yield "搜索失败，没有返回结果"
+        yield "Die Suche ist fehlgeschlagen, es wurden keine Ergebnisse zurückgegeben"
     else:
         total_token = ""
         for token in  free_ask_internet.chat(prompt=prompt,model=model,llm_auth_token=llm_auth_token,llm_base_url=llm_base_url,using_custom_llm=using_custom_llm,stream=True):
@@ -218,7 +218,7 @@ async def stream(search_uuid:str,request: QueryRequest):
 
     if request.ask_type == "llm":
             
-        answer_language = ' Simplified Chinese '
+        answer_language = ' German '
         if request.lang == "zh-CN":
             answer_language = ' Simplified Chinese '
         if request.lang == "zh-TW":
