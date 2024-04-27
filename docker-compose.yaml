@@ -9,7 +9,7 @@ services:
   freeaskinternet-ui:
     image: docker.io/nashsu/free_ask_internet_ui:latest
     ports:
-      - "3333:80"
+      - "80:80"
     environment:
       BACKEND_HOST: "backend:8000"
     depends_on:
