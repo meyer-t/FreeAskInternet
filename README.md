@@ -51,7 +51,7 @@ This project is still in its very early days. Expect some bugs.
 ### Run the latest release
 
 ```bash
-git clone https://github.com/nashsu/FreeAskInternet.git
+git clone https://github.com/meyer-t/FreeAskInternet.git
 cd ./FreeAskInternet
 docker-compose up -d 
 ```
