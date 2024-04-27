@@ -78,7 +78,7 @@ def search_web_ref(query:str, debug=False):
                     res = future.result(timeout=5)
                     results.append(res)
             except concurrent.futures.TimeoutError:
-                print("任务执行超时")
+                print("Timeout")
                 executor.shutdown(wait=False,cancel_futures=True)
 
             for content in results:
@@ -107,9 +107,9 @@ def gen_prompt(question,content_list, lang="de_DE", context_length_limit=11000,d
     
     ref_content = [ item.get("content") for item in content_list]
     
-    answer_language = ' Simplified Chinese '
-    if lang == "zh-CN":
-        answer_language = ' Simplified Chinese '
+    answer_language = ' German '
+    if lang == "de-DE":
+        answer_language = ' German '
     if lang == "zh-TW":
         answer_language = ' Traditional Chinese '
     if lang == "en-US":
@@ -120,7 +120,7 @@ def gen_prompt(question,content_list, lang="de_DE", context_length_limit=11000,d
         
         if False:
             prompts = '''
-            您是一位由 nash_su 开发的大型语言人工智能助手。您将被提供一个用户问题，并需要撰写一个清晰、简洁且准确的答案。提供了一组与问题相关的上下文，每个都以[[citation:x]]这样的编号开头，x代表一个数字。请在适当的情况下在句子末尾引用上下文。答案必须正确、精确，并以专家的中立和职业语气撰写。请将答案限制在2000个标记内。不要提供与问题无关的信息，也不要重复。如果给出的上下文信息不足，请在相关主题后写上“信息缺失：”。请按照引用编号[citation:x]的格式在答案中对应部分引用上下文。如果一句话源自多个上下文，请列出所有相关的引用编号，例如[citation:3][citation:5]，不要将引用集中在最后返回，而是在答案对应部分列出。除非是代码、特定的名称或引用编号，答案的语言应与问题相同。以下是上下文的内容集：
+            Sie sind ein von mir entwickelter KI-Assistent für große Sprachen. Sie erhalten eine Benutzerfrage und werden gebeten, eine klare, prägnante und genaue Antwort zu verfassen. Stellt eine Reihe von Kontexten bereit, die für die Frage relevant sind und jeweils mit einer Zahl beginnen, z. B. [[citation:x]], wobei x eine Zahl darstellt. Bitte zitieren Sie ggf. den Kontext am Ende des Satzes. Die Antworten müssen korrekt und präzise sein und im neutralen und professionellen Ton eines Experten verfasst sein. Bitte beschränken Sie die Antworten auf 2000 Token. Geben Sie keine Informationen an, die für die Frage nicht relevant sind, und wiederholen Sie diese nicht. Wenn nicht genügend Kontextinformationen angegeben sind, schreiben Sie „Informationen fehlen:“ nach dem entsprechenden Thema. Bitte geben Sie den Kontext im entsprechenden Teil Ihrer Antwort im Format der Zitatnummer [Citation:x] an. Wenn ein Satz aus mehreren Kontexten stammt, listen Sie alle relevanten Zitatnummern auf, zum Beispiel [Citation:3][Citation:5]. Geben Sie die Zitate nicht zusammen am Ende zurück, sondern listen Sie sie im entsprechenden Teil der Antwort auf. Sofern es sich nicht um einen Code, einen bestimmten Namen oder eine Referenznummer handelt, sollte die Antwort in derselben Sprache wie die Frage verfasst sein. Das Folgende ist der Inhaltssatz des Kontexts：
             '''  + "\n\n" + "```" 
             ref_index = 1
 
@@ -133,7 +133,7 @@ def gen_prompt(question,content_list, lang="de_DE", context_length_limit=11000,d
                 prompts = prompts[0:limit_len]        
             prompts = prompts + '''
     ```
-    记住，不要一字不差的重复上下文内容. 回答必须使用简体中文，如果回答很长，请尽量结构化、分段落总结。请按照引用编号[citation:x]的格式在答案中对应部分引用上下文。如果一句话源自多个上下文，请列出所有相关的引用编号，例如[citation:3][citation:5]，不要将引用集中在最后返回，而是在答案对应部分列出。下面是用户问题：
+    Denken Sie daran, den Kontext nicht wörtlich zu wiederholen. Wenn die Antwort lang ist, versuchen Sie bitte, sie in Absätzen zu strukturieren. Bitte geben Sie den Kontext im entsprechenden Teil Ihrer Antwort im Format der Zitatnummer [citation:x] an. Wenn ein Satz aus mehreren Kontexten stammt, listen Sie alle relevanten Zitatnummern auf, zum Beispiel [citation:3][citation:5]. Geben Sie die Zitate nicht zusammen am Ende zurück, sondern listen Sie sie im entsprechenden Teil der Antwort auf. Hier sind die Benutzerfragen：
     ''' + question  
         else:
             prompts = '''
@@ -164,7 +164,7 @@ def gen_prompt(question,content_list, lang="de_DE", context_length_limit=11000,d
 
     if debug:
         print(prompts)
-        print("总长度："+ str(len(prompts)))
+        print("Gesamtlänge："+ str(len(prompts)))
     return prompts
 
 
@@ -228,11 +228,11 @@ def ask_internet(query:str,  debug=False):
             total_token += token
             yield token
     yield "\n\n"
-    # 是否返回参考资料
+    # Ob zu Referenzmaterialien zurückgekehrt werden soll
     if True:
         yield "---"
         yield "\n"
-        yield "参考资料:\n"
+        yield "Quellen:\n"
         count = 1
         for url_content in content_list:
             url = url_content.get('url')
